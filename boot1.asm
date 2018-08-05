@@ -40,16 +40,16 @@ init_pm:
 	mov fs, ax
 	mov gs, ax
 	mov ss, ax
-	
+
 	mov ebp, 0x7C00
 	mov esp, ebp
-	
-	mov al, 2
-	out 0x92, al
-	
+
+	;mov al, 2
+	;out 0x92, al
+
 	jmp 0x8:0x1000
 	jmp $
-	
+
 clear_screen:
 	mov esi, 2000
 .loop:

@@ -1,25 +1,17 @@
 #ifndef _IDT_H
 #define _IDT_H
 
-struct idt_entry {
-	unsigned short base_low;
-	unsigned short selector;
-	unsigned char zero;
-	unsigned char flags;
-	unsigned short base_high;
-} __attribute__((packed));
+#include "print.h"
 
-struct idtr {
-	unsigned short limit;
-	void* base;
-} __attribute__((packed));
-
-struct idt_entry idt[256];
-//struct idtr ptr;
-
-//assembly functions
-extern void load_idt(void* ptr);
+#define MAX_INTERRUPTS 0x100
+#define IDT_DESC_BIT16 0x06
+#define IDT_DESC_BIT32 0x0E
+#define IDT_DESC_RING1 0x40
+#define IDT_DESC_RING2 0x20
+#define IDT_DESC_RING3 0x60
+#define IDT_DESC_PRESENT 0x80
 
 extern void init_idt();
+extern void set_interrupt(unsigned char i, unsigned short selector, unsigned char flags, unsigned int ir_ptr);
 
 #endif

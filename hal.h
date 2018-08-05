@@ -2,10 +2,14 @@
 #define _HAL_H
 
 #include "idt.h"
+#include "pic.h"
+#include "pit.h"
 
 //assembly functions
-extern short read_port(unsigned short port);
-extern char write_port(unsigned short port, unsigned char data);
+extern void disable_interrupts();
+extern void enable_interrupts();
+extern void gen_interrupt(unsigned char i);
+extern void eoi_request(unsigned char i);
 
 extern void init_hal();
 

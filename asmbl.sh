@@ -1,27 +1,24 @@
 #!/bin/bash
 
-BOOT_STAGE_0=boot0
-BOOT_STAGE_1=boot1
-KERNEL=kernel
-KERNEL_ASM=kernel_asm
-KERNEL_C=kernel_c
-SOURCE_FILES=(hal.c)
+BOOT_0=boot0.asm
+BOOT_1=boot1.asm
+KERNEL=kernel.bin
+KERNEL_ASM=kernel_asm.asm
+SOURCE_FILES=(kernel_c.c hal.c idt.c pic.c print.c)
 BOOT=boot.flp
 VM="TestOS"
 
-nasm -f bin $BOOT_STAGE_0.asm -o $BOOT_STAGE_0.bin
-nasm -f bin $BOOT_STAGE_1.asm -o $BOOT_STAGE_1.bin
+nasm -f bin $BOOT_0 -o ${BOOT_0/%.*/.bin}
+nasm -f bin $BOOT_1 -o ${BOOT_1/%.*/.bin}
 
-nasm -f elf32 $KERNEL_ASM.asm -o $KERNEL_ASM.o
-gcc -Wall -g -ffreestanding -m32 -c ${SOURCE_FILES[*]} -o ${SOURCE_FILES[*]%.*}.o
-gcc -Wall -g -ffreestanding -m32 -c $KERNEL_C.c
-ld -T link.ld -m elf_i386 --oformat binary $KERNEL_ASM.o $KERNEL_C.o ${SOURCE_FILES[*]%.*}.o -o $KERNEL.bin
+nasm -f elf32 $KERNEL_ASM -o ${KERNEL_ASM/%.*/.o}
+for i in ${SOURCE_FILES[@]}; do
+	gcc -Wall -g -ffreestanding -m32 -c $i -o ${i%.*}.o
+done
+ld -T link.ld -m elf_i386 --oformat binary ${KERNEL_ASM/%.*/.o} $(IFS=$' '; printf "${SOURCE_FILES[*]/%.*/.o}") -o $KERNEL
 
-if [ -f $KERNEL_ASM.o ]; then
-	rm $KERNEL_ASM.o
-fi
-if [ -f $KERNEL_C.o ]; then
-	rm $KERNEL_C.o
+if [ -f ${KERNEL_ASM/%.*/.o} ]; then
+	rm ${KERNEL_ASM/%.*/.o}
 fi
 
 for i in ${SOURCE_FILES[@]}; do
@@ -35,19 +32,18 @@ if [ -f $BOOT ]; then
 fi
 
 dd if=/dev/zero of=$BOOT bs=512 count=2880
-dd if=$BOOT_STAGE_0.bin of=$BOOT bs=512 count=1 seek=0 conv=notrunc
-dd if=$BOOT_STAGE_1.bin of=$BOOT bs=512 count=1 seek=1 conv=notrunc
-#dd if=$KERNEL_ASM.bin of=$BOOT bs=512 count=1 seek=2 conv=notrunc
-dd if=$KERNEL.bin of=$BOOT bs=512 count=3 seek=2 conv=notrunc
+dd if=${BOOT_0/%.*/.bin} of=$BOOT bs=512 count=1 seek=0 conv=notrunc
+dd if=${BOOT_1/%.*/.bin} of=$BOOT bs=512 count=1 seek=1 conv=notrunc
+dd if=$KERNEL of=$BOOT bs=512 count=3 seek=2 conv=notrunc
 
-if [ -f $BOOT_STAGE_0.bin ]; then
-	rm $BOOT_STAGE_0.bin
+if [ -f ${BOOT_0/%.*/.bin} ]; then
+	rm ${BOOT_0/%.*/.bin}
 fi
-if [ -f $BOOT_STAGE_1.bin ]; then
-	rm $BOOT_STAGE_1.bin
+if [ -f ${BOOT_1/%.*/.bin} ]; then
+	rm ${BOOT_1/%.*/.bin}
 fi
-if [ -f $KERNEL.bin ]; then
-	rm $KERNEL.bin
+if [ -f $KERNEL ]; then
+	rm $KERNEL
 fi
 
 if [ ! -f $BOOT ]; then

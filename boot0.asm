@@ -9,12 +9,12 @@ start:
 	mov ss, ax
 	mov sp, 0x7C00
 	sti
-	
+
 	mov [DISK], dl
-	
+
 	mov ah, 0x00
 	int 0x13
-	
+
 	mov bx, 0x7E00 ;buffer address pointer
 	mov ah, 0x02   ;int 0x13 read from drive
 	mov al, 0x01   ;sectors to read count
@@ -26,7 +26,7 @@ start:
 	jc disk_read_error
 	or al, al
 	jz disk_read_error
-	
+
 	mov bx, 0x1000 ;buffer address pointer
 	mov ah, 0x02   ;int 0x13 read from drive
 	mov al, 0x03   ;sectors to read count
@@ -38,7 +38,7 @@ start:
 	jc disk_read_error
 	or al, al
 	jz disk_read_error
-	
+
 	jmp 0x7E00
 	jmp $
 
