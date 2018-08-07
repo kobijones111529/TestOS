@@ -4,7 +4,7 @@ BOOT_0=boot0.asm
 BOOT_1=boot1.asm
 KERNEL=kernel.bin
 KERNEL_ASM=kernel_asm.asm
-SOURCE_FILES=(kernel_c.c hal.c idt.c pic.c pit.cpp keyboard.c print.c)
+SOURCE_FILES=(kernel_c.cpp hal.cpp idt.cpp pic.cpp pit.cpp keyboard.cpp print.cpp)
 BOOT=boot.flp
 VM="TestOS"
 

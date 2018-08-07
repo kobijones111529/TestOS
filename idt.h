@@ -3,13 +3,21 @@
 
 #include "print.h"
 
-#define MAX_INTERRUPTS 0x100
+/*#define MAX_INTERRUPTS 0x100
 #define IDT_DESC_BIT16 0x06
 #define IDT_DESC_BIT32 0x0E
 #define IDT_DESC_RING1 0x40
 #define IDT_DESC_RING2 0x20
 #define IDT_DESC_RING3 0x60
-#define IDT_DESC_PRESENT 0x80
+#define IDT_DESC_PRESENT 0x80*/
+
+unsigned int const MAX_INTERRUPTS = 0x100;
+unsigned char const IDT_DESC_BIT16 = 0x06;
+unsigned char const IDT_DESC_BIT32 = 0x0E;
+unsigned char const IDT_DESC_RING1 = 0x40;
+unsigned char const IDT_DESC_RING2 = 0x20;
+unsigned char const IDT_DESC_RING3 = 0x40;
+unsigned char const IDT_DESC_PRESENT = 0x80;
 
 //assembly functions
 extern "C" void load_idt(unsigned int ptr);
