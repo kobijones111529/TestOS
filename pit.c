@@ -1,5 +1,10 @@
 #include "pit.h"
 
+void pit_ir() {
+	inc_pit_ticks();
+	eoi_request(0);
+}
+
 void init_pit() {
 	//command word
 	//binary counting, mode 3, read/load lsb then msb, channel 0

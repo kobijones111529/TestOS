@@ -16,7 +16,9 @@ extern void gen_interrupt(unsigned char i);
 extern void pit_ir_asm();
 extern unsigned int get_pit_ticks();
 extern void set_pit_ticks(unsigned int ticks);
+extern void inc_pit_ticks();
 
 extern void init_pit();
+extern void pit_ir();
 
 #endif
