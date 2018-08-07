@@ -1,7 +1,5 @@
 #include "kernel_c.h"
 
-extern unsigned int get_eip();
-
 void divide_by_0_fault() {
 	print("divide_by_0_fault", 0x0F);
 	for(;;);
@@ -97,11 +95,25 @@ void main(void) {
 	set_interrupt(18, 0x8, 0x8E, (unsigned int)&(*machine_check_abort));
 	set_interrupt(19, 0x8, 0x8E, (unsigned int)&(*simd_fpu_fault));
 
-	char* hello = "Hello! Ticks: ";
+	char* hello = "Have some primes: ";
 	print(hello, 0x0F);
 	unsigned short pos = get_cursor_pos();
 
-	for(;;) {
-		print_int_at(get_pit_ticks(), 10, 0x0F, pos);
+	for(unsigned int counter = 2;; counter++) {
+		unsigned int prime = 1;
+		for(unsigned int checker = 2;; checker++) {
+			if(checker * checker > counter) {
+				break;
+			} else if(counter % checker == 0) {
+				prime = 0;
+				break;
+			}
+		}
+
+		if(prime) {
+			unsigned int timerStart = get_pit_ticks();
+			print_int_at(counter, 10, 0x0F, pos);
+			for(; get_pit_ticks() - timerStart < 100;);
+		}
 	}
 }

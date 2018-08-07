@@ -11,7 +11,7 @@ void init_pit() {
 	write_port(0x43, 0x36);
 
 	//load counter
-	unsigned short count = PIT_FREQUENCY / 1000;
+	unsigned short count = PIT_FREQUENCY / 100;
 	write_port(0x40, count & 0xFF);
 	write_port(0x40, (count >> 0x8) & 0xFF);
 
