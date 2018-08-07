@@ -1,6 +1,7 @@
 bits 32
 
 extern main
+extern pit_ir
 
 global start
 global load_idt
@@ -11,6 +12,7 @@ global enable_interrupts
 global gen_interrupt
 global get_pit_ticks
 global set_pit_ticks
+global inc_pit_ticks
 global pit_ir_asm
 
 start:
@@ -66,10 +68,7 @@ inc_pit_ticks:
 
 pit_ir_asm:
 	pushad
-	call inc_pit_ticks
-	mov dx, 0x20
-	mov al, 0x20
-	out dx, al
+	call pit_ir
 	popad
 	iretd
 
