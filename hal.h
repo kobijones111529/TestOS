@@ -9,7 +9,6 @@
 extern void disable_interrupts();
 extern void enable_interrupts();
 extern void gen_interrupt(unsigned char i);
-extern void eoi_request(unsigned char i);
 
 extern void init_hal();
 

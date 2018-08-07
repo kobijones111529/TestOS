@@ -4,7 +4,7 @@ BOOT_0=boot0.asm
 BOOT_1=boot1.asm
 KERNEL=kernel.bin
 KERNEL_ASM=kernel_asm.asm
-SOURCE_FILES=(kernel_c.c hal.c idt.c pic.c print.c)
+SOURCE_FILES=(kernel_c.c hal.c idt.c pic.c pit.c print.c)
 BOOT=boot.flp
 VM="TestOS"
 
@@ -34,7 +34,7 @@ fi
 dd if=/dev/zero of=$BOOT bs=512 count=2880
 dd if=${BOOT_0/%.*/.bin} of=$BOOT bs=512 count=1 seek=0 conv=notrunc
 dd if=${BOOT_1/%.*/.bin} of=$BOOT bs=512 count=1 seek=1 conv=notrunc
-dd if=$KERNEL of=$BOOT bs=512 count=3 seek=2 conv=notrunc
+dd if=$KERNEL of=$BOOT bs=512 count=8 seek=2 conv=notrunc
 
 if [ -f ${BOOT_0/%.*/.bin} ]; then
 	rm ${BOOT_0/%.*/.bin}

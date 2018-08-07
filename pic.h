@@ -16,5 +16,6 @@
 #define PIC_EOI 0x20
 
 extern void init_pic();
+extern void eoi_request(unsigned char i);
 
 #endif

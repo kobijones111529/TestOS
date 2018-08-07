@@ -1,8 +1,5 @@
 #include "idt.h"
 
-//assembly functions
-extern void load_idt(unsigned int ptr);
-
 struct idt_desc {
 	unsigned short base_low;
 	unsigned short selector;
@@ -16,12 +13,17 @@ struct idt_ptr {
 	unsigned int base;
 } __attribute__((packed));
 
-static struct idt_desc idt[MAX_INTERRUPTS];
-static struct idt_ptr idtr;
+struct idt_desc idt[MAX_INTERRUPTS];
+struct idt_ptr idtr;
 
-static void default_ir() {
+void default_ir() {
 	print("Unhandled interrupt!", 0x0F);
-	//for(;;);
+	for(;;);
+}
+
+void ir0() {
+	print("Unhandled interrupt 0!", 0x0F);
+	for(;;);
 }
 
 void set_interrupt(unsigned char i, unsigned short selector, unsigned char flags, unsigned int ir_ptr) {
@@ -34,7 +36,11 @@ void set_interrupt(unsigned char i, unsigned short selector, unsigned char flags
 
 void init_idt() {
 	for(unsigned int i = 0; i < MAX_INTERRUPTS; i++) {
-		set_interrupt(i, 0x8, IDT_DESC_PRESENT | IDT_DESC_BIT32, (unsigned int)&(*default_ir));
+		if(i == 0x20) {
+			set_interrupt(i, 0x8, IDT_DESC_PRESENT | IDT_DESC_BIT32, (unsigned int)&(*ir0));
+		} else {
+			set_interrupt(i, 0x8, IDT_DESC_PRESENT | IDT_DESC_BIT32, (unsigned int)&(*default_ir));
+		}
 	}
 
 	idtr.limit = sizeof(struct idt_desc) * MAX_INTERRUPTS - 1;

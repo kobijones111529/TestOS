@@ -11,6 +11,9 @@
 #define IDT_DESC_RING3 0x60
 #define IDT_DESC_PRESENT 0x80
 
+//assembly functions
+extern void load_idt(unsigned int ptr);
+
 extern void init_idt();
 extern void set_interrupt(unsigned char i, unsigned short selector, unsigned char flags, unsigned int ir_ptr);
 

@@ -2,7 +2,7 @@
 
 void init_pic() {
 	//initialization control word 1
-	//00010001: enable ic4, set initialization
+	//00010001: enable icw4, set initialization
 	write_port(PIC1_COMMAND_PORT, 0x11);
 	write_port(PIC2_COMMAND_PORT, 0x11);
 
@@ -12,7 +12,7 @@ void init_pic() {
 	write_port(PIC2_DATA_PORT, 0x28);
 
 	//icw 3
-	//irq line 2 connets pics
+	//ir2 connets pics
 	write_port(PIC1_DATA_PORT, 0x4); //second bit
 	write_port(PIC2_DATA_PORT, 0x2);
 
@@ -20,8 +20,14 @@ void init_pic() {
 	//enable 80x86 mode
 	write_port(PIC1_DATA_PORT, 0x1);
 	write_port(PIC2_DATA_PORT, 0x1);
+}
 
-	//clear data registers
-	write_port(PIC1_DATA_PORT, 0x0);
-	write_port(PIC2_DATA_PORT, 0x0);
+void eoi_request(unsigned char i) {
+	if(i > 0xF) {
+		return;
+	} else if(i > 0x7) {
+		write_port(PIC2_COMMAND_PORT, PIC_EOI);
+	}
+
+	write_port(PIC1_COMMAND_PORT, PIC_EOI);
 }

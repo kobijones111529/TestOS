@@ -9,7 +9,9 @@ global write_port
 global disable_interrupts
 global enable_interrupts
 global gen_interrupt
-global get_cpu_vendor_id
+global get_pit_ticks
+global set_pit_ticks
+global pit_ir_asm
 
 start:
 	call main
@@ -37,6 +39,7 @@ disable_interrupts:
 
 enable_interrupts:
 	sti
+	int 0x20
 	ret
 
 gen_interrupt:
@@ -46,11 +49,28 @@ gen_interrupt:
 	int 0
 	ret
 
-get_cpu_vendor_id:
-	mov eax, 0
-	cpuid
-	mov esi, [esp + 4]
-	mov [esi], ebx
-	mov [esi + 4], edx
-	mov [esi + 8], ecx
+get_pit_ticks:
+	mov eax, [pit_ticks]
 	ret
+
+set_pit_ticks:
+	mov eax, [esp + 4]
+	mov [pit_ticks], eax
+	ret
+
+inc_pit_ticks:
+	mov eax, [pit_ticks]
+	inc eax
+	mov [pit_ticks], eax
+	ret
+
+pit_ir_asm:
+	pushad
+	call inc_pit_ticks
+	mov dx, 0x20
+	mov al, 0x20
+	out dx, al
+	popad
+	iretd
+
+pit_ticks times 4 db 0

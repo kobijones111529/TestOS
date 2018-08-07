@@ -17,7 +17,7 @@ start:
 
 	mov bx, 0x7E00 ;buffer address pointer
 	mov ah, 0x02   ;int 0x13 read from drive
-	mov al, 0x01   ;sectors to read count
+	mov al, 1   ;sectors to read count
 	mov ch, 0x00   ;cylinder
 	mov cl, 0x02   ;sector
 	mov dh, 0x00   ;head
@@ -29,7 +29,7 @@ start:
 
 	mov bx, 0x1000 ;buffer address pointer
 	mov ah, 0x02   ;int 0x13 read from drive
-	mov al, 0x03   ;sectors to read count
+	mov al, 17   ;sectors to read count
 	mov ch, 0x00   ;cylinder
 	mov cl, 0x03   ;sector
 	mov dh, 0x00   ;head
