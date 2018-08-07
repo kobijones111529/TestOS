@@ -11,14 +11,16 @@
 #include "port_io.h"
 #include "pic.h"
 
+extern unsigned int pit_ticks;
+
 //assembly functions
-extern void gen_interrupt(unsigned char i);
-extern void pit_ir_asm();
-extern unsigned int get_pit_ticks();
-extern void set_pit_ticks(unsigned int ticks);
-extern void inc_pit_ticks();
+extern "C" void gen_interrupt(unsigned char i);
+extern "C" void pit_ir_asm();
+extern "C" unsigned int get_pit_ticks();
+extern "C" void set_pit_ticks(unsigned int ticks);
+extern "C" void inc_pit_ticks();
 
 extern void init_pit();
-extern void pit_ir();
+extern "C" void pit_ir();
 
 #endif

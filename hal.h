@@ -6,9 +6,9 @@
 #include "pit.h"
 
 //assembly functions
-extern void disable_interrupts();
-extern void enable_interrupts();
-extern void gen_interrupt(unsigned char i);
+extern "C" void disable_interrupts();
+extern "C" void enable_interrupts();
+extern "C" void gen_interrupt(unsigned char i);
 
 extern void init_hal();
 

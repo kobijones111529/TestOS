@@ -1,7 +1,9 @@
 #include "pit.h"
 
+unsigned int pit_ticks = 0;
+
 void pit_ir() {
-	inc_pit_ticks();
+	pit_ticks++;
 	eoi_request(0);
 }
 

@@ -54,14 +54,13 @@ void dec_cursor_pos() {
 void print_char(unsigned char c, unsigned char attribs) {
 	unsigned short cursor_pos = get_cursor_pos();
 
-	unsigned char* vga = (unsigned char*)VGA;
-	vga[cursor_pos * 2] = c;
-	vga[cursor_pos * 2 + 1] = attribs;
+	VGA[cursor_pos * 2] = c;
+	VGA[cursor_pos * 2 + 1] = attribs;
 
 	set_cursor_pos(cursor_pos + 1);
 }
 
-void print(char* string, unsigned char attribs) {
+void print(const char* string, unsigned char attribs) {
 	unsigned short pos = get_cursor_pos();
 	while(*string) {
 		print_char_at(*string, attribs, pos);
@@ -101,12 +100,11 @@ void print_int(unsigned int number, unsigned char radix, unsigned char attribs) 
 }
 
 void print_char_at(unsigned char c, unsigned char attribs, unsigned short pos) {
-	unsigned char* vga = (unsigned char*)VGA;
-	vga[pos * 2] = c;
-	vga[pos * 2 + 1] = attribs;
+	VGA[pos * 2] = c;
+	VGA[pos * 2 + 1] = attribs;
 }
 
-void print_at(char* string, unsigned char attribs, unsigned short pos) {
+void print_at(const char* string, unsigned char attribs, unsigned short pos) {
 	while(*string) {
 		print_char_at(*string, attribs, pos);
 		string++;

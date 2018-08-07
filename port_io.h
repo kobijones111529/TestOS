@@ -2,7 +2,7 @@
 #define _PORT_IO_H
 
 //assembly functions
-extern short read_port(unsigned short port);
-extern char write_port(unsigned short port, unsigned char data);
+extern "C" short read_port(unsigned short port);
+extern "C" char write_port(unsigned short port, unsigned char data);
 
 #endif
