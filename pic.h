@@ -17,5 +17,7 @@
 
 extern void init_pic();
 extern void eoi_request(unsigned char i);
+extern void mask(unsigned char i);
+extern void unmask(unsigned char i);
 
 #endif

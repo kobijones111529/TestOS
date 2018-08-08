@@ -3,9 +3,9 @@
 
 #include "port_io.h"
 
-static unsigned char* const VGA = (unsigned char*)0xB8000;
-static unsigned char const COLUMNS = 80;
-static unsigned char const ROWS = 25;
+unsigned char* const VGA = (unsigned char*)0xB8000;
+unsigned char const COLUMNS = 80;
+unsigned char const ROWS = 25;
 
 extern unsigned short get_cursor_pos();
 extern void set_cursor_pos(unsigned short pos);

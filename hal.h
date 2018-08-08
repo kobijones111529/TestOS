@@ -4,6 +4,7 @@
 #include "idt.h"
 #include "pic.h"
 #include "pit.h"
+#include "keyboard.h"
 
 //assembly functions
 extern "C" void disable_interrupts();

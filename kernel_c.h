@@ -4,6 +4,9 @@
 #include "hal.h"
 #include "print.h"
 
+//assembly functions
+extern "C" void halt();
+
 extern void divide_by_0_fault();
 extern void single_step_trap();
 extern void nmi_trap();

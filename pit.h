@@ -16,9 +16,6 @@ extern unsigned int pit_ticks;
 //assembly functions
 extern "C" void gen_interrupt(unsigned char i);
 extern "C" void pit_ir_asm();
-extern "C" unsigned int get_pit_ticks();
-extern "C" void set_pit_ticks(unsigned int ticks);
-extern "C" void inc_pit_ticks();
 
 extern void init_pit();
 extern "C" void pit_ir();

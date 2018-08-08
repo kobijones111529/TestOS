@@ -95,9 +95,13 @@ void main(void) {
 	set_interrupt(18, 0x8, 0x8E, (unsigned int)&(*machine_check_abort));
 	set_interrupt(19, 0x8, 0x8E, (unsigned int)&(*simd_fpu_fault));
 
-	const char* hello = "Have some primes: ";
-	print(hello, 0x0F);
 	unsigned short pos = get_cursor_pos();
+
+	for(;;) {
+		print_int_at(kb_events, 10, 0x0F, pos);
+	}
+
+	//print("Hi!", 0x0F);
 
 	for(unsigned int counter = 2;; counter++) {
 		unsigned int prime = 1;
@@ -112,6 +116,7 @@ void main(void) {
 
 		if(prime) {
 			unsigned int timerStart = pit_ticks;
+			set_cursor_pos(pos);
 			print_int_at(counter, 10, 0x0F, pos);
 			for(; pit_ticks - timerStart < 100;);
 		}

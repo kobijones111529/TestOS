@@ -2,6 +2,8 @@ bits 32
 
 extern main
 extern pit_ir
+extern keyboard_ir
+extern kb_events
 
 global start
 global load_idt
@@ -10,7 +12,9 @@ global write_port
 global disable_interrupts
 global enable_interrupts
 global gen_interrupt
+global halt
 global pit_ir_asm
+global keyboard_ir_asm
 
 start:
 	call main
@@ -38,7 +42,6 @@ disable_interrupts:
 
 enable_interrupts:
 	sti
-	int 0x20
 	ret
 
 gen_interrupt:
@@ -51,5 +54,11 @@ gen_interrupt:
 pit_ir_asm:
 	pushad
 	call pit_ir
+	popad
+	iretd
+
+keyboard_ir_asm:
+	pushad
+	call keyboard_ir
 	popad
 	iretd
